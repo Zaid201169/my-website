@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>موقع التواصل</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-color: #1c1e21;
+    --secondary-text: #65676b;
+    --primary: #1877f2;
+    --primary-hover: #166fe5;
+    --border-color: #e4e6eb;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --accent: #8b5cf6;
+    --green: #25d366;
+    --danger: #e41e3f;
+}
+
+body.dark {
+    --bg-color: #18191a;
+    --card-bg: #242526;
+    --text-color: #e4e6eb;
+    --secondary-text: #b0b3b8;
+    --border-color: #3a3b3c;
+    --shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+    padding-bottom: 90px;
+    min-height: 100vh;
+}
+
+/* ====== الشريط العلوي ====== */
+.navbar {
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-logo img {
+    height: 38px;
+    width: auto;
+    border-radius: 8px;
+    background: white;
+    padding: 2px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: var(--border-color);
+    border: none;
+    font-size: 17px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:active { transform: scale(0.9); }
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1877f2, #8b5cf6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+/* ====== الشاشة الرئيسية ====== */
+.main-screen {
+    max-width: 680px;
+    margin: 16px auto;
+    padding: 0 12px;
+    min-height: calc(100vh - 180px);
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* تصميم صف الدردشة */
+.main-chat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, background 0.2s;
+    position: relative;
+}
+
+.main-chat-row:active {
+    transform: scale(0.98);
+    background: var(--border-color);
+}
+
+.chat-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1877f2, #8b5cf6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.chat-avatar.group {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+}
+
+.chat-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.chat-details-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-details-top strong {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 8px;
+}
+
+.chat-details-top small {
+    font-size: 11px;
+    color: var(--secondary-text);
+}
+
+.chat-details-bottom {
+    font-size: 13px;
+    color: var(--secondary-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.delete-chat-btn {
+    background: transparent;
+    border: none;
+    color: var(--danger);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-chat-btn:hover {
+    background: rgba(228, 30, 63, 0.1);
+}
+
+.delete-chat-btn:active {
+    transform: scale(0.9);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--secondary-text);
+    font-size: 15px;
+}
+
+.empty-state img {
+    width: 100px;
+    opacity: 0.5;
+    margin-bottom: 15px;
+}
+
+/* ====== نظام الحسابات ====== */
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #1877f2, #8b5cf6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.auth-overlay.hidden { display: none; }
+
+.auth-card {
+    background: var(--card-bg);
+    padding: 24px 20px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    margin: auto;
+}
+
+.auth-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.auth-logo img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: white;
+    padding: 6px;
+    box-shadow: 0 6px 20px rgba(24, 119, 242, 0.25);
+}
+
+.auth-card p.subtitle {
+    text-align: center;
+    color: var(--secondary-text);
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    outline: none;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.auth-card input:focus { border-color: var(--primary); }
+
+.auth-card .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.auth-toggle {
+    text-align: center;
+    font-size: 14px;
+    color: var(--secondary-text);
+}
+
+.auth-toggle a {
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.auth-error {
+    color: var(--danger);
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 8px;
+    min-height: 18px;
+}
+
+/* ============================================
+   الشريط السفلي
+   ============================================ */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 500;
+    max-width: 680px;
+    margin: 0 auto;
+    gap: 8px;
+}
+
+.bar-btn {
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: transparent;
+    color: var(--secondary-text);
+    font-size: 11px;
+    font-family: inherit;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: transform 0.15s;
+}
+
+.bar-btn:active { transform: scale(0.92); }
+
+.bar-btn .icon {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.bar-btn.friends-btn .icon { color: var(--accent); }
+
+.bar-btn.new-chat-btn {
+    background: var(--primary);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 26px;
+    flex-direction: row;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(24,119,242,0.35);
+    margin-top: -6px;
+}
+
+.bar-btn.new-chat-btn .icon { font-size: 18px; }
+.bar-btn.new-chat-btn:active { background: var(--primary-hover); transform: scale(0.96); }
+
+.bar-btn.group-btn {
+    background: var(--green);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 26px;
+    flex-direction: row;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(37,211,102,0.35);
+    margin-top: -6px;
+}
+
+.bar-btn.group-btn .icon { font-size: 18px; }
+.bar-btn.group-btn:active { background: #20b858; transform: scale(0.96); }
+
+/* ====== نافذة منبثقة ====== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 900;
+    padding: 16px;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal h3 {
+    margin-bottom: 14px;
+    color: var(--primary);
+    text-align: center;
+    font-size: 18px;
+}
+
+.modal input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.modal-close {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: var(--secondary-text);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-family: inherit;
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: inherit;
+}
+
+.modal-btn:hover { background: var(--primary-hover); }
+
+.modal-subtitle {
+    font-size: 13px;
+    color: var(--secondary-text);
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 4px;
+}
+
+/* قائمة المستخدمين */
+.user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+.user-row .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.user-row .user-info > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.user-row .user-info strong { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-row .user-info small { font-size: 11px; color: var(--secondary-text); }
+
+.user-row .btn-add {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    flex-shrink: 0;
+    font-family: inherit;
+}
+
+.user-row .btn-delete {
+    background: var(--danger);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    flex-shrink: 0;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* اختيار أعضاء المجموعة */
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.checkbox-row:hover { background: var(--bg-color); }
+
+.checkbox-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.checkbox-row label {
+    flex: 1;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.checkbox-row label strong { font-size: 14px; }
+.checkbox-row label small { font-size: 11px; color: var(--secondary-text); }
+
+.empty-row {
+    text-align: center;
+    padding: 20px;
+    color: var(--secondary-text);
+    font-size: 14px;
+}
+
+/* ====== نافذة الدردشة ====== */
+.chat-window {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: var(--card-bg);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 950;
+}
+
+.chat-window.show { display: flex; }
+
+.chat-header {
+    background: var(--primary);
+    color: white;
+    padding: 12px 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.chat-header .chat-title {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.chat-header .chat-title span { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chat-header .chat-title small { font-size: 10px; opacity: 0.85; }
+
+.chat-header button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.chat-header button:active { background: rgba(255,255,255,0.2); }
+
+.chat-messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.chat-msg {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.chat-msg.me {
+    align-self: flex-end;
+    background: var(--primary);
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-msg.other {
+    align-self: flex-start;
+    background: var(--bg-color);
+    border-bottom-right-radius: 4px;
+}
+
+.chat-msg small {
+    display: block;
+    font-size: 10px;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid var(--border-color);
+    gap: 8px;
+    flex-shrink: 0;
+    background: var(--card-bg);
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    outline: none;
+    font-size: 15px;
+    font-family: inherit;
+    min-width: 0;
+}
+
+.chat-input button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+}
+
+.chat-input button:active { background: var(--primary-hover); }
+
+/* ====== تجاوب الشاشات ====== */
+@media (max-width: 500px) {
+    .bar-btn .label { display: none; }
+    .bar-btn.friends-btn .icon { font-size: 26px; }
+    .bar-btn.new-chat-btn, .bar-btn.group-btn { padding: 12px; }
+    .bar-btn.new-chat-btn .label,
+    .bar-btn.group-btn .label { display: inline; font-size: 12px; }
+    .nav-logo img { height: 34px; }
+    .user-avatar { width: 34px; height: 34px; font-size: 14px; }
+    .icon-btn { width: 32px; height: 32px; font-size: 15px; }
+    .logout-btn { display: none; }
+    .chat-details-top strong { max-width: 150px; }
+}
+
+@media (min-width: 800px) {
+    .chat-window {
+        bottom: 90px;
+        left: auto;
+        right: 24px;
+        width: 400px;
+        height: 600px;
+        max-height: calc(100vh - 120px);
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== شاشة الدخول ====== -->
+<div class="auth-overlay" id="authOverlay">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <img src="لوقو الموقع.png" alt="لوقو الموقع" onerror="this.style.display='none'">
+        </div>
+        <p class="subtitle" id="authSubtitle">سجّل دخولك للتواصل مع أصدقائك</p>
+        <div class="auth-error" id="authError"></div>
+        <input type="text" id="authUsername" placeholder="اسم المستخدم" autocomplete="username">
+        <input type="password" id="authPassword" placeholder="كلمة المرور" autocomplete="current-password">
+        <button class="btn-primary" id="authBtn">دخول</button>
+        <p class="auth-toggle">
+            <span id="authToggleText">ليس لديك حساب؟</span>
+            <a id="authToggleLink">أنشئ حساباً</a>
+        </p>
+    </div>
+</div>
+
+<!-- ====== الشريط العلوي ====== -->
+<header class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <img src="لوقو الموقع.png" alt="لوقو الموقع" onerror="this.style.display='none'">
+        </div>
+        <div class="nav-icons">
+            <button id="themeToggle" class="icon-btn" title="تغيير المظهر">🌙</button>
+            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                <span id="currentUser" style="font-size:12px; font-weight:bold;"></span>
+                <span id="currentUserId" style="font-size:10px; color:var(--secondary-text);"></span>
+            </div>
+            <div class="user-avatar" id="myAvatar">أ</div>
+            <button class="logout-btn" id="logoutBtn" style="background:transparent;border:none;color:var(--secondary-text);cursor:pointer;font-size:12px;padding:4px 6px;font-family:inherit;">خروج</button>
+        </div>
+    </div>
+</header>
+
+<!-- ====== المحتوى الرئيسي (قائمة الدردشات) ====== -->
+<main class="main-screen">
+    <div class="section-title">💬 دردشاتي</div>
+    <div id="homeChatList"></div>
+</main>
+
+<!-- ====== الشريط السفلي ====== -->
+<div class="bottom-bar">
+    <button class="bar-btn friends-btn" id="friendsBtn" title="إدارة الأصدقاء">
+        <span class="icon">👤+</span>
+        <span class="label">أصدقاء</span>
+    </button>
+
+    <button class="bar-btn new-chat-btn" id="newChatBtn" title="دردشة خاصة">
+        <span class="icon">💬</span>
+        <span class="label">دردشة</span>
+    </button>
+    
+    <button class="bar-btn group-btn" id="newGroupBtn" title="دردشة جماعية">
+        <span class="icon">👥</span>
+        <span class="label">مجموعة</span>
+    </button>
+</div>
+
+<!-- ====== نافذة إدارة الأصدقاء ====== -->
+<div class="modal-overlay" id="friendsModal">
+    <div class="modal">
+        <h3>👤 إدارة الأصدقاء</h3>
+        
+        <!-- قسم أصدقائي الحاليين (للحذف) -->
+        <div class="modal-subtitle">قائمة أصدقائي (للحذف):</div>
+        <div id="currentFriendsList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
+        
+        <!-- قسم البحث والإضافة -->
+        <div class="modal-subtitle">إضافة أصدقاء جدد:</div>
+        <input type="text" id="searchUserInput" placeholder="ابحث باسم المستخدم أو ID...">
+        <div id="searchResults" style="max-height:200px; overflow-y:auto;"></div>
+        
+        <button class="modal-close" onclick="closeModal('friendsModal')">إغلاق</button>
+    </div>
+</div>
+
+<!-- ====== نافذة إنشاء دردشة خاصة ====== -->
+<div class="modal-overlay" id="newChatModal">
+    <div class="modal">
+        <h3>💬 دردشة خاصة</h3>
+        <input type="text" id="newChatSearchInput" placeholder="ابحث باسم الصديق أو ID...">
+        <div id="newChatResults" style="max-height:300px; overflow-y:auto;"></div>
+        <button class="modal-close" onclick="closeModal('newChatModal')">إغلاق</button>
+    </div>
+</div>
+
+<!-- ====== نافذة إنشاء دردشة جماعية ====== -->
+<div class="modal-overlay" id="newGroupModal">
+    <div class="modal">
+        <h3>👥 دردشة جماعية جديدة</h3>
+        <input type="text" id="groupNameInput" placeholder="اسم المجموعة (مثال: أصدقاء الجامعة)">
+        <input type="text" id="groupSearchInput" placeholder="ابحث عن أصدقاء لإضافتهم...">
+        <div id="groupFriendsList" style="max-height:250px; overflow-y:auto; margin-bottom:10px;"></div>
+        <div style="font-size:12px; color:var(--secondary-text); text-align:center; margin-bottom:8px;">
+            المحددون: <span id="selectedCount">0</span> صديق
+        </div>
+        <button class="modal-btn" onclick="createGroupChat()">إنشاء المجموعة</button>
+        <button class="modal-close" onclick="closeModal('newGroupModal')">إغلاق</button>
+    </div>
+</div>
+
+<!-- ====== نافذة الدردشة ====== -->
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <div class="chat-title">
+            <span id="chatWithName">—</span>
+            <small id="chatWithId">—</small>
+        </div>
+        <button id="closeChat">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="اكتب رسالة...">
+        <button id="sendChat">إرسال</button>
+    </div>
+</div>
+
+<script>
+/* ============================================================
+   قاعدة البيانات المحلية
+   ============================================================ */
+const DB = {
+    get: (key, fallback) => {
+        try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+        catch { return fallback; }
+    },
+    set: (key, val) => localStorage.setItem(key, JSON.stringify(val))
+};
+
+let users = DB.get('users', []);
+let currentUserId = DB.get('currentUserId', null);
+let chats = DB.get('chats', []);
+let friends = DB.get('friends', {});
+let notifications = DB.get('notifications', {});
+let activeChatId = null;
+let chatOpen = false;
+
+/* ============================================================
+   عناصر DOM
+   ============================================================ */
+const authOverlay = document.getElementById('authOverlay');
+const authBtn = document.getElementById('authBtn');
+const authUsername = document.getElementById('authUsername');
+const authPassword = document.getElementById('authPassword');
+const authError = document.getElementById('authError');
+const authSubtitle = document.getElementById('authSubtitle');
+const authToggleText = document.getElementById('authToggleText');
+const authToggleLink = document.getElementById('authToggleLink');
+
+const themeToggle = document.getElementById('themeToggle');
+const currentUserSpan = document.getElementById('currentUser');
+const currentUserIdSpan = document.getElementById('currentUserId');
+const myAvatar = document.getElementById('myAvatar');
+const logoutBtn = document.getElementById('logoutBtn');
+
+const friendsBtn = document.getElementById('friendsBtn');
+const newChatBtn = document.getElementById('newChatBtn');
+const newGroupBtn = document.getElementById('newGroupBtn');
+
+const homeChatList = document.getElementById('homeChatList');
+
+const chatWindow = document.getElementById('chatWindow');
+const closeChatBtn = document.getElementById('closeChat');
+const chatMessagesEl = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendChatBtn = document.getElementById('sendChat');
+const chatWithName = document.getElementById('chatWithName');
+const chatWithId = document.getElementById('chatWithId');
+
+/* ============================================================
+   دوال مساعدة
+   ============================================================ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function saveAll() {
+    DB.set('users', users);
+    DB.set('currentUserId', currentUserId);
+    DB.set('chats', chats);
+    DB.set('friends', friends);
+    DB.set('notifications', notifications);
+}
+
+function getUserById(id) { return users.find(u => u.id === id); }
+function getCurrentUser() { return currentUserId ? getUserById(currentUserId) : null; }
+
+function generateUserId() {
+    let id;
+    do { id = 1000 + Math.floor(Math.random() * 9000); }
+    while (users.find(u => u.id === id));
+    return id;
+}
+
+function generateChatId() {
+    let id;
+    do { id = 'C-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random()*900+100); }
+    while (chats.find(c => c.id === id));
+    return id;
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+/* ============================================================
+   المصادقة
+   ============================================================ */
+let isLoginMode = true;
+
+function switchAuthMode() {
+    isLoginMode = !isLoginMode;
+    authError.textContent = '';
+    if (isLoginMode) {
+        authSubtitle.textContent = 'سجّل دخولك للتواصل مع أصدقائك';
+        authBtn.textContent = 'دخول';
+        authToggleText.textContent = 'ليس لديك حساب؟';
+        authToggleLink.textContent = 'أنشئ حساباً';
+    } else {
+        authSubtitle.textContent = 'أنشئ حساباً جديداً وانضم لأصدقائك';
+        authBtn.textContent = 'تسجيل';
+        authToggleText.textContent = 'لديك حساب بالفعل؟';
+        authToggleLink.textContent = 'سجّل دخولك';
+    }
+}
+
+authToggleLink.addEventListener('click', switchAuthMode);
+
+authBtn.addEventListener('click', () => {
+    const username = authUsername.value.trim();
+    const password = authPassword.value.trim();
+
+    if (!username || !password) {
+        authError.textContent = '⚠️ الرجاء إدخال اسم المستخدم وكلمة المرور';
+        return;
+    }
+    if (username.length < 2) {
+        authError.textContent = '⚠️ اسم المستخدم قصير جداً';
+        return;
+    }
+    if (password.length < 3) {
+        authError.textContent = '⚠️ كلمة المرور يجب أن تكون 3 أحرف على الأقل';
+        return;
+    }
+
+    users = DB.get('users', []);
+
+    if (isLoginMode) {
+        const user = users.find(u => u.username === username && u.password === password);
+        if (!user) {
+            authError.textContent = '❌ اسم المستخدم أو كلمة المرور غير صحيحة';
+            return;
+        }
+        currentUserId = user.id;
+    } else {
+        if (users.find(u => u.username === username)) {
+            authError.textContent = '❌ اسم المستخدم مستخدم مسبقاً';
+            return;
+        }
+        const newUser = { id: generateUserId(), username, password };
+        users.push(newUser);
+        DB.set('users', users);
+        currentUserId = newUser.id;
+    }
+
+    saveAll();
+    enterApp();
+});
+
+authPassword.addEventListener('keydown', e => {
+    if (e.key === 'Enter') authBtn.click();
+});
+
+function enterApp() {
+    authOverlay.classList.add('hidden');
+    authUsername.value = '';
+    authPassword.value = '';
+    const me = getCurrentUser();
+    currentUserSpan.textContent = me.username;
+    currentUserIdSpan.textContent = 'ID: #' + me.id;
+    myAvatar.textContent = me.username.charAt(0).toUpperCase();
+    renderHomeChatList();
+}
+
+function logout() {
+    if (!confirm('هل تريد تسجيل الخروج؟')) return;
+    currentUserId = null;
+    saveAll();
+    authOverlay.classList.remove('hidden');
+    isLoginMode = true;
+    switchAuthMode();
+    chatWindow.classList.remove('show');
+    chatOpen = false;
+    activeChatId = null;
+}
+
+logoutBtn.addEventListener('click', logout);
+
+/* ============================================================
+   المظهر الليلي
+   ============================================================ */
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    themeToggle.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('darkMode', isDark);
+});
+
+if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark');
+    themeToggle.textContent = '☀️';
+}
+
+/* ============================================================
+   إدارة الأصدقاء (إضافة / حذف)
+   ============================================================ */
+friendsBtn.addEventListener('click', () => {
+    document.getElementById('friendsModal').classList.add('show');
+    document.getElementById('searchUserInput').value = '';
+    renderCurrentFriendsList();
+    renderSearchResults('');
+    setTimeout(() => document.getElementById('searchUserInput').focus(), 100);
+});
+
+// عرض قائمة الأصدقاء الحاليين للحذف
+function renderCurrentFriendsList() {
+    const me = getCurrentUser();
+    const myFriends = friends[me.id] || [];
+    const list = document.getElementById('currentFriendsList');
+    
+    if (myFriends.length === 0) {
+        list.innerHTML = '<p class="empty-row">ليس لديك أصدقاء حالياً.</p>';
+        return;
+    }
+
+    list.innerHTML = myFriends.map(fid => {
+        const u = getUserById(fid);
+        if (!u) return '';
+        return `
+        <div class="user-row">
+            <div class="user-info">
+                <div class="user-avatar" style="width:36px;height:36px;font-size:14px;">${escapeHtml(u.username.charAt(0).toUpperCase())}</div>
+                <div>
+                    <strong>${escapeHtml(u.username)}</strong>
+                    <small>ID: #${u.id}</small>
+                </div>
+            </div>
+            <button class="btn-delete" onclick="deleteFriend(${u.id})">🗑️ حذف</button>
+        </div>`;
+    }).join('');
+}
+
+// البحث لإضافة أصدقاء
+document.getElementById('searchUserInput').addEventListener('input', (e) => {
+    renderSearchResults(e.target.value.trim());
+});
+
+function renderSearchResults(query) {
+    const me = getCurrentUser();
+    const results = document.getElementById('searchResults');
+    const myFriends = friends[me.id] || [];
+
+    let list = users.filter(u => u.id !== me.id && !myFriends.includes(u.id));
+    if (query) {
+        list = list.filter(u =>
+            u.username.toLowerCase().includes(query.toLowerCase()) ||
+            String(u.id).includes(query)
+        );
+    }
+
+    if (list.length === 0) {
+        results.innerHTML = query 
+            ? '<p class="empty-row">لا يوجد مستخدمون مطابقون للإضافة</p>'
+            : '<p class="empty-row">ابحث عن مستخدمين لإضافتهم كأصدقاء</p>';
+        return;
+    }
+
+    results.innerHTML = list.map(u => {
+        return `
+        <div class="user-row">
+            <div class="user-info">
+                <div class="user-avatar" style="width:36px;height:36px;font-size:14px;">${escapeHtml(u.username.charAt(0).toUpperCase())}</div>
+                <div>
+                    <strong>${escapeHtml(u.username)}</strong>
+                    <small>ID: #${u.id}</small>
+                </div>
+            </div>
+            <button class="btn-add" onclick="addFriend(${u.id})">إضافة</button>
+        </div>`;
+    }).join('');
+}
+
+function addFriend(friendId) {
+    const me = getCurrentUser();
+    if (!friends[me.id]) friends[me.id] = [];
+    if (!friends[friendId]) friends[friendId] = [];
+    
+    if (!friends[me.id].includes(friendId)) {
+        friends[me.id].push(friendId);
+        friends[friendId].push(me.id);
+        saveAll();
+        renderCurrentFriendsList();
+        renderSearchResults(document.getElementById('searchUserInput').value.trim());
+        alert('✅ تمت إضافة الصديق!');
+    }
+}
+
+function deleteFriend(friendId) {
+    if (!confirm('هل أنت متأكد من حذف هذا الصديق من قائمتك؟')) return;
+    const me = getCurrentUser();
+    
+    if (friends[me.id]) {
+        friends[me.id] = friends[me.id].filter(id => id !== friendId);
+    }
+    if (friends[friendId]) {
+        friends[friendId] = friends[friendId].filter(id => id !== me.id);
+    }
+    
+    saveAll();
+    renderCurrentFriendsList();
+    renderSearchResults(document.getElementById('searchUserInput').value.trim());
+    alert('🗑️ تم حذف الصديق');
+}
+
+/* ============================================================
+   إنشاء دردشة خاصة
+   ============================================================ */
+newChatBtn.addEventListener('click', () => {
+    document.getElementById('newChatModal').classList.add('show');
+    document.getElementById('newChatSearchInput').value = '';
+    renderNewChatResults('');
+    setTimeout(() => document.getElementById('newChatSearchInput').focus(), 100);
+});
+
+document.getElementById('newChatSearchInput').addEventListener('input', (e) => {
+    renderNewChatResults(e.target.value.trim());
+});
+
+function renderNewChatResults(query) {
+    const me = getCurrentUser();
+    const myFriends = friends[me.id] || [];
+    const results = document.getElementById('newChatResults');
+
+    let list = users.filter(u => u.id !== me.id && myFriends.includes(u.id));
+    if (query) {
+        list = list.filter(u =>
+            u.username.toLowerCase().includes(query.toLowerCase()) ||
+            String(u.id).includes(query)
+        );
+    }
+
+    if (list.length === 0) {
+        results.innerHTML = '<p class="empty-row">لا يوجد أصدقاء بعد.<br>أضف أصدقاء أولاً بزر 👤+</p>';
+        return;
+    }
+
+    results.innerHTML = list.map(u => {
+        const existingChat = chats.find(c =>
+            !c.isGroup &&
+            c.members.includes(me.id) &&
+            c.members.includes(u.id)
+        );
+        return `
+        <div class="user-row">
+            <div class="user-info">
+                <div class="user-avatar" style="width:36px;height:36px;font-size:14px;">${escapeHtml(u.username.charAt(0).toUpperCase())}</div>
+                <div>
+                    <strong>${escapeHtml(u.username)}</strong>
+                    <small>ID: #${u.id}</small>
+                </div>
+            </div>
+            <button class="btn-add" onclick="startOrOpenChat(${u.id})">
+                ${existingChat ? 'فتح' : 'دردشة'}
+            </button>
+        </div>`;
+    }).join('');
+}
+
+function startOrOpenChat(otherUserId) {
+    const me = getCurrentUser();
+    let chat = chats.find(c =>
+        !c.isGroup &&
+        c.members.length === 2 &&
+        c.members.includes(me.id) &&
+        c.members.includes(otherUserId)
+    );
+    if (!chat) {
+        chat = {
+            id: generateChatId(),
+            isGroup: false,
+            members: [me.id, otherUserId],
+            createdAt: new Date().toISOString(),
+            messages: []
+        };
+        chats.push(chat);
+        saveAll();
+    }
+    closeModal('newChatModal');
+    openChatWindow(chat.id);
+}
+
+/* ============================================================
+   إنشاء دردشة جماعية
+   ============================================================ */
+let selectedGroupMembers = [];
+
+newGroupBtn.addEventListener('click', () => {
+    document.getElementById('newGroupModal').classList.add('show');
+    document.getElementById('groupNameInput').value = '';
+    document.getElementById('groupSearchInput').value = '';
+    selectedGroupMembers = [];
+    updateSelectedCount();
+    renderGroupFriends('');
+    setTimeout(() => document.getElementById('groupNameInput').focus(), 100);
+});
+
+document.getElementById('groupSearchInput').addEventListener('input', (e) => {
+    renderGroupFriends(e.target.value.trim());
+});
+
+function renderGroupFriends(query) {
+    const me = getCurrentUser();
+    const myFriends = friends[me.id] || [];
+    const results = document.getElementById('groupFriendsList');
+
+    let list = users.filter(u => u.id !== me.id && myFriends.includes(u.id));
+    if (query) {
+        list = list.filter(u =>
+            u.username.toLowerCase().includes(query.toLowerCase()) ||
+            String(u.id).includes(query)
+        );
+    }
+
+    if (list.length === 0) {
+        results.innerHTML = '<p class="empty-row">لا يوجد أصدقاء متاحون</p>';
+        return;
+    }
+
+    results.innerHTML = list.map(u => {
+        const isChecked = selectedGroupMembers.includes(u.id);
+        return `
+        <div class="checkbox-row" onclick="toggleGroupMember(${u.id})">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleGroupMember(${u.id})">
+            <label>
+                <strong>${escapeHtml(u.username)}</strong>
+                <small>ID: #${u.id}</small>
+            </label>
+        </div>`;
+    }).join('');
+}
+
+function toggleGroupMember(userId) {
+    const idx = selectedGroupMembers.indexOf(userId);
+    if (idx > -1) {
+        selectedGroupMembers.splice(idx, 1);
+    } else {
+        selectedGroupMembers.push(userId);
+    }
+    updateSelectedCount();
+    renderGroupFriends(document.getElementById('groupSearchInput').value.trim());
+}
+
+function updateSelectedCount() {
+    document.getElementById('selectedCount').textContent = selectedGroupMembers.length;
+}
+
+function createGroupChat() {
+    const name = document.getElementById('groupNameInput').value.trim();
+    if (!name) {
+        alert('⚠️ الرجاء إدخال اسم للمجموعة');
+        return;
+    }
+    if (selectedGroupMembers.length === 0) {
+        alert('⚠️ الرجاء اختيار صديق واحد على الأقل');
+        return;
+    }
+
+    const me = getCurrentUser();
+    const chat = {
+        id: generateChatId(),
+        isGroup: true,
+        groupName: name,
+        members: [me.id, ...selectedGroupMembers],
+        createdAt: new Date().toISOString(),
+        messages: []
+    };
+    chats.push(chat);
+    saveAll();
+    closeModal('newGroupModal');
+    openChatWindow(chat.id);
+}
+
+/* ============================================================
+   عرض الدردشات في الشاشة الرئيسية
+   ============================================================ */
+function renderHomeChatList() {
+    const me = getCurrentUser();
+    if (!me) return;
+    
+    const myChats = chats.filter(c => c.members.includes(me.id));
+    
+    myChats.sort((a, b) => {
+        const aTime = a.messages.length ? a.messages[a.messages.length - 1].time : a.createdAt;
+        const bTime = b.messages.length ? b.messages[b.messages.length - 1].time : b.createdAt;
+        return bTime.localeCompare(aTime);
+    });
+
+    if (myChats.length === 0) {
+        homeChatList.innerHTML = `
+            <div class="empty-state">
+                <img src="لوقو الموقع.png" alt="لوقو" onerror="this.style.display='none'">
+                <p>لا توجد دردشات حتى الآن.<br>ابدأ دردشة جديدة أو أنشئ مجموعة من الأزرار بالأسفل.</p>
+            </div>`;
+        return;
+    }
+
+    homeChatList.innerHTML = myChats.map(c => {
+        let title, avatarText, avatarClass, icon;
+        if (c.isGroup) {
+            title = c.groupName;
+            avatarText = '👥';
+            avatarClass = 'group';
+            icon = '📢';
+        } else {
+            const otherId = c.members.find(id => id !== me.id);
+            const other = getUserById(otherId);
+            title = other ? other.username : 'مستخدم';
+            avatarText = other ? other.username.charAt(0).toUpperCase() : '؟';
+            avatarClass = '';
+            icon = '💬';
+        }
+        
+        const lastMsg = c.messages[c.messages.length - 1];
+        const previewText = lastMsg ? lastMsg.text : 'لا رسائل بعد';
+        
+        return `
+        <div class="main-chat-row" onclick="openChatWindow('${c.id}')">
+            <div class="chat-avatar ${avatarClass}">${avatarText}</div>
+            <div class="chat-details">
+                <div class="chat-details-top">
+                    <strong>${icon} ${escapeHtml(title)}</strong>
+                    <small>${lastMsg ? escapeHtml(lastMsg.time) : ''}</small>
+                </div>
+                <div class="chat-details-bottom">${escapeHtml(previewText)}</div>
+            </div>
+            <button class="delete-chat-btn" title="حذف الدردشة" onclick="event.stopPropagation(); deleteChat('${c.id}')">🗑️</button>
+        </div>`;
+    }).join('');
+}
+
+/* ============================================================
+   حذف الدردشة
+   ============================================================ */
+function deleteChat(chatId) {
+    if (!confirm('هل أنت متأكد من حذف هذه الدردشة نهائياً؟ (سيتم مسح جميع الرسائل)')) return;
+    
+    chats = chats.filter(c => c.id !== chatId);
+    saveAll();
+    
+    if (activeChatId === chatId) {
+        chatWindow.classList.remove('show');
+        chatOpen = false;
+        activeChatId = null;
+    }
+    
+    renderHomeChatList();
+    alert('🗑️ تم حذف الدردشة بنجاح');
+}
+
+/* ============================================================
+   نافذة الدردشة
+   ============================================================ */
+function openChatWindow(chatId) {
+    const me = getCurrentUser();
+    const chat = chats.find(c => c.id === chatId);
+    if (!chat) return;
+    activeChatId = chatId;
+    
+    if (chat.isGroup) {
+        chatWithName.textContent = '👥 ' + chat.groupName;
+        chatWithId.textContent = 'مجموعة • ' + chat.members.length + ' أعضاء • ' + chat.id;
+    } else {
+        const otherId = chat.members.find(id => id !== me.id);
+        const other = getUserById(otherId);
+        chatWithName.textContent = other ? other.username : 'مستخدم';
+        chatWithId.textContent = 'ID: ' + chat.id;
+    }
+    
+    renderChatMessages();
+    chatWindow.classList.add('show');
+    chatOpen = true;
+    setTimeout(() => chatInput.focus(), 200);
+}
+
+closeChatBtn.addEventListener('click', () => {
+    chatWindow.classList.remove('show');
+    chatOpen = false;
+    activeChatId = null;
+    renderHomeChatList();
+});
+
+function renderChatMessages() {
+    const me = getCurrentUser();
+    const chat = chats.find(c => c.id === activeChatId);
+    if (!chat) return;
+    chatMessagesEl.innerHTML = chat.messages.map(m => `
+        <div class="chat-msg ${m.fromId === me.id ? 'me' : 'other'}">
+            ${m.fromId !== me.id ? `<strong>${escapeHtml(m.fromName)}</strong><br>` : ''}
+            ${escapeHtml(m.text)}
+            <small>${escapeHtml(m.time)}</small>
+        </div>
+    `).join('');
+    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+}
+
+sendChatBtn.addEventListener('click', sendChatMessage);
+chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendChatMessage();
+});
+
+function sendChatMessage() {
+    const text = chatInput.value.trim();
+    if (!text || !activeChatId) return;
+    const me = getCurrentUser();
+    const chat = chats.find(c => c.id === activeChatId);
+    chat.messages.push({
+        fromId: me.id,
+        fromName: me.username,
+        text,
+        time: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+    });
+    saveAll();
+    chatInput.value = '';
+    renderChatMessages();
+    renderHomeChatList();
+}
+
+/* ============================================================
+   محاكاة ردود الأصدقاء
+   ============================================================ */
+const fakeReplies = ['أهلاً بك! 👋', 'كيف حالك؟', 'ههههه صح', 'تمام، وأنت؟', 'جميل جداً 😊', 'أكيد!'];
+
+setInterval(() => {
+    const me = getCurrentUser();
+    if (!me) return;
+    const myChats = chats.filter(c => c.members.includes(me.id));
+    if (myChats.length === 0) return;
+    if (Math.random() > 0.3) return;
+
+    const chat = myChats[Math.floor(Math.random() * myChats.length)];
+    const otherIds = chat.members.filter(id => id !== me.id);
+    if (otherIds.length === 0) return;
+    const otherId = otherIds[Math.floor(Math.random() * otherIds.length)];
+    const other = getUserById(otherId);
+    if (!other) return;
+
+    chat.messages.push({
+        fromId: other.id,
+        fromName: other.username,
+        text: fakeReplies[Math.floor(Math.random() * fakeReplies.length)],
+        time: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+    });
+    saveAll();
+
+    if (chatOpen && activeChatId === chat.id) {
+        renderChatMessages();
+    }
+    renderHomeChatList();
+}, 12000);
+
+/* ============================================================
+   إغلاق المودالات عند الضغط خارجها
+   ============================================================ */
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('show');
+    });
+});
+
+/* ============================================================
+   التهيئة الأولية
+   ============================================================ */
+try {
+    if (currentUserId && users.find(u => u.id === currentUserId)) {
+        enterApp();
+    } else {
+        currentUserId = null;
+        authOverlay.classList.remove('hidden');
+    }
+} catch (err) {
+    console.error('خطأ في التهيئة:', err);
+    localStorage.clear();
+    location.reload();
+}
+</script>
+
+</body>
+</html>
